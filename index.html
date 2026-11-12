@@ -524,6 +524,122 @@
       line-height: 1.4;
     }
 
+    .skip-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      min-height: 30px;
+      padding: 0 9px;
+      border: 1px solid var(--border-strong);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text-soft);
+      font: inherit;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 650;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease;
+    }
+
+    .skip-btn::after {
+      content: "";
+      position: absolute;
+      inset: -5px;
+      border-radius: 999px;
+    }
+
+    .skip-btn svg {
+      width: 13px;
+      height: 13px;
+      flex: 0 0 13px;
+    }
+
+    .skip-btn:hover:not(:disabled) {
+      border-color: var(--accent-border);
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    .skip-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .skip-notice {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 14px;
+      padding: 9px 9px 9px 11px;
+      border: 1px solid var(--accent-border);
+      border-radius: 15px;
+      background: var(--accent-soft);
+    }
+
+    .skip-notice-icon {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      border-radius: 10px;
+      background: var(--surface-solid);
+      color: var(--accent-strong);
+    }
+
+    .skip-notice-icon svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .skip-notice-copy {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .skip-notice-copy strong {
+      display: block;
+      color: var(--text);
+      font-size: 11.5px;
+      line-height: 1.45;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .skip-notice-copy span {
+      display: block;
+      margin-top: 2px;
+      color: var(--text-soft);
+      font-size: 10px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .skip-undo {
+      min-height: 36px;
+      flex: 0 0 auto;
+      margin-left: auto;
+      padding: 0 10px;
+      border: 1px solid var(--accent-border);
+      border-radius: 10px;
+      background: var(--surface-solid);
+      color: var(--accent-strong);
+      font: inherit;
+      font-size: 10.5px;
+      line-height: 1;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .skip-undo:hover {
+      background: var(--surface);
+      border-color: var(--accent);
+    }
+
     .duty-meta {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -845,6 +961,48 @@
       color: var(--text-muted);
     }
 
+    .member-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1px 9px;
+      margin-top: 3px;
+      color: var(--text-muted);
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    .member-stat {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .stat-dot {
+      width: 4px;
+      height: 4px;
+      flex: 0 0 4px;
+      border-radius: 50%;
+    }
+
+    .stat-dot.normal {
+      background: var(--success);
+    }
+
+    .stat-dot.leave {
+      background: var(--accent);
+    }
+
+    .member-stat strong {
+      color: var(--text-soft);
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .member-row.is-current .member-stats {
+      color: var(--text-soft);
+    }
+
     .icon-btn {
       display: grid;
       place-items: center;
@@ -994,8 +1152,8 @@
 
     .history-item {
       display: flex;
-      align-items: center;
-      gap: 11px;
+      align-items: flex-start;
+      gap: 10px;
       padding: 11px 2px;
       border-bottom: 1px solid var(--border);
     }
@@ -1014,9 +1172,15 @@
       width: 32px;
       height: 32px;
       flex: 0 0 32px;
+      margin-top: 1px;
       border-radius: 50%;
       background: var(--success-soft);
       color: var(--success);
+    }
+
+    .history-item.is-skip .history-check {
+      background: var(--accent-soft);
+      color: var(--accent-strong);
     }
 
     .history-check svg {
@@ -1054,6 +1218,17 @@
       font-weight: 750;
     }
 
+    .history-leave {
+      flex: 0 0 auto;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: var(--accent);
+      color: var(--accent-contrast);
+      font-size: 8.5px;
+      line-height: 1.25;
+      font-weight: 750;
+    }
+
     .history-date {
       margin-top: 2px;
       overflow: hidden;
@@ -1064,6 +1239,22 @@
       white-space: nowrap;
     }
 
+    .history-reason {
+      margin-top: 3px;
+      color: var(--text-soft);
+      font-size: 10px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .history-side {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      flex: 0 0 auto;
+      margin-top: 1px;
+    }
+
     .history-time {
       flex: 0 0 auto;
       color: var(--text-soft);
@@ -1071,6 +1262,36 @@
       line-height: 1.3;
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
+    }
+
+    .history-action {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+      padding: 0;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.18s ease, background-color 0.18s ease;
+    }
+
+    .history-action:hover {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .history-action.is-undo:hover {
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    .history-action svg {
+      width: 14px;
+      height: 14px;
     }
 
     .history-empty {
@@ -1114,6 +1335,43 @@
       color: var(--danger);
     }
 
+    .reset-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 8px;
+      animation: rise 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) 0.22s both;
+    }
+
+    .reset-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      min-height: 36px;
+      padding: 0 11px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text-muted);
+      font: inherit;
+      font-size: 10.5px;
+      line-height: 1;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .reset-btn:hover {
+      border-color: var(--danger-border);
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .reset-btn svg {
+      width: 13px;
+      height: 13px;
+    }
+
     .toast {
       position: fixed;
       left: 50%;
@@ -1143,7 +1401,11 @@
 
     dialog.confirm-dialog {
       width: min(calc(100vw - 40px), 360px);
+      max-height: calc(100vh - 32px);
+      max-height: calc(100dvh - 32px);
       padding: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
       border: 1px solid var(--border);
       border-radius: 23px;
       background: var(--surface-solid);
@@ -1221,6 +1483,74 @@
     .btn-danger {
       background: var(--danger);
       color: #fff;
+    }
+
+    dialog.leave-dialog {
+      width: min(calc(100vw - 32px), 400px);
+    }
+
+    .leave-dialog .dialog-body {
+      padding-bottom: 13px;
+    }
+
+    .leave-icon {
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    .leave-label {
+      display: block;
+      margin: 16px 0 6px;
+      color: var(--text-soft);
+      font-size: 10.5px;
+      line-height: 1.4;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    .leave-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 12px;
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      outline: none;
+      background: var(--input-bg);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.2;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .leave-input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.9;
+    }
+
+    .leave-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--focus);
+    }
+
+    .leave-input[aria-invalid="true"] {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 4px var(--danger-soft);
+    }
+
+    .leave-error {
+      margin-top: 7px;
+      text-align: left;
+    }
+
+    .btn-leave {
+      background: linear-gradient(135deg, var(--accent-grad-a), var(--accent-grad-b));
+      color: var(--accent-contrast);
+    }
+
+    .btn-leave:hover {
+      filter: brightness(1.035) saturate(1.04);
     }
 
     html[data-theme="dark"] .btn-danger {
@@ -1440,7 +1770,7 @@
             <path d="M84 45.5c3-3.2 7.7-3.4 10.7-.5M32.5 85c-1.6 2.7-4.8 3.6-7.5 2.1" stroke="var(--text-muted)" stroke-width="2.4" stroke-linecap="round" opacity=".55"></path>
           </svg>
           <h2>先添加第一位室友</h2>
-          <p>名单添加后，从今天开始按顺序每天轮换。谁值日、何时轮换，一眼就知道。</p>
+          <p>名单添加后，从本周开始按顺序每周轮换。谁值日、何时轮换，一眼就知道。</p>
           <button class="btn btn-primary" type="button" data-focus-add>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
               <path d="M12 5v14M5 12h14"></path>
@@ -1456,7 +1786,14 @@
               <h2 class="duty-name" id="dutyName"></h2>
               <div class="status-line">
                 <span class="status-pill pending" id="statusPill">待打卡</span>
-                <span class="duty-note" id="dutyNote">每天 00:00 自动轮换</span>
+                <button class="skip-btn" id="skipBtn" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h13"></path>
+                    <path d="m13 7 5 5-5 5"></path>
+                  </svg>
+                  跳过/请假
+                </button>
+                <span class="duty-note" id="dutyNote">每周一 00:00 自动轮换</span>
               </div>
             </div>
           </div>
@@ -1472,6 +1809,20 @@
               <strong class="meta-value" id="nextMemberValue">—</strong>
               <span class="meta-sub" id="nextMemberSub">按名单顺序接棒</span>
             </div>
+          </div>
+
+          <div class="skip-notice" id="skipNotice" hidden>
+            <span class="skip-notice-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h13"></path>
+                <path d="m13 7 5 5-5 5"></path>
+              </svg>
+            </span>
+            <span class="skip-notice-copy">
+              <strong id="skipNoticeTitle"></strong>
+              <span id="skipNoticeText"></span>
+            </span>
+            <button class="skip-undo" id="undoSkipBtn" type="button">撤销请假</button>
           </div>
 
           <button class="btn btn-primary" id="checkBtn" type="button">
@@ -1500,7 +1851,7 @@
         <div class="section-head">
           <div>
             <h2 id="membersTitle">轮值顺序</h2>
-            <p>每天按名单顺序自动轮换</p>
+            <p>每周按名单顺序自动轮换</p>
           </div>
           <span class="count-badge" id="memberCount">0 人</span>
         </div>
@@ -1535,8 +1886,8 @@
       <section class="card" aria-labelledby="historyTitle">
         <div class="section-head">
           <div>
-            <h2 id="historyTitle">打卡记录</h2>
-            <p id="historyHint">完成第一次打卡后，记录会出现在这里</p>
+            <h2 id="historyTitle">值日记录</h2>
+            <p id="historyHint">完成第一次打卡或请假后，记录会出现在这里</p>
           </div>
           <button class="clear-btn" id="clearHistoryBtn" type="button" hidden>清空记录</button>
         </div>
@@ -1550,6 +1901,15 @@
         </svg>
         <span id="storageText">已开启本地保存 · 刷新不丢失</span>
       </p>
+      <div class="reset-wrap">
+        <button class="reset-btn" id="resetDataBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 7h16M9.5 7V5.4c0-.8.6-1.4 1.4-1.4h2.2c.8 0 1.4.6 1.4 1.4V7M6.4 7l.8 12c.1 1 .9 1.7 1.9 1.7h5.8c1 0 1.8-.7 1.9-1.7l.8-12"></path>
+            <path d="M10 11v5.5M14 11v5.5"></path>
+          </svg>
+          重置所有数据
+        </button>
+      </div>
     </main>
   </div>
 
@@ -1575,12 +1935,45 @@
     </form>
   </dialog>
 
+  <dialog class="confirm-dialog leave-dialog" id="leaveDialog" aria-labelledby="leaveTitle" aria-describedby="leaveText leaveError">
+    <form id="leaveForm">
+      <div class="dialog-body">
+        <div class="dialog-icon leave-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h13"></path>
+            <path d="m13 7 5 5-5 5"></path>
+          </svg>
+        </div>
+        <h2 class="dialog-title" id="leaveTitle">跳过 / 请假</h2>
+        <p class="dialog-text" id="leaveText"></p>
+        <label class="leave-label" for="leaveReason">请假原因</label>
+        <input
+          class="leave-input"
+          id="leaveReason"
+          type="text"
+          maxlength="40"
+          placeholder="例如：生病、临时有事"
+          autocomplete="off"
+          enterkeyhint="done"
+          aria-describedby="leaveText leaveError"
+        >
+        <p class="form-error leave-error" id="leaveError" role="alert" hidden></p>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn btn-cancel" id="leaveCancel" type="button">取消</button>
+        <button class="btn btn-leave" type="submit">确认请假</button>
+      </div>
+    </form>
+  </dialog>
+
   <script>
     (function () {
       'use strict';
 
       var STORAGE_KEY = 'dorm-duty:v1';
+      var STATE_VERSION = 2;
       var MAX_NAME_LENGTH = 16;
+      var MAX_REASON_LENGTH = 40;
       var THEME_ORDER = ['auto', 'dark', 'light'];
       var WEEKDAYS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -1592,6 +1985,8 @@
         light: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2.8v2M12 19.2v2M21.2 12h-2M4.8 12h-2M18.5 5.5l-1.4 1.4M6.9 17.1l-1.4 1.4M18.5 18.5l-1.4-1.4M6.9 6.9 5.5 5.5"></path></svg>',
         trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V5.4c0-.8.6-1.4 1.4-1.4h2.2c.8 0 1.4.6 1.4 1.4V7M6.4 7l.8 12c.1 1 .9 1.7 1.9 1.7h5.8c1 0 1.8-.7 1.9-1.7l.8-12"></path><path d="M10 11v5.5M14 11v5.5"></path></svg>',
         check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"></path></svg>',
+        leave: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"></path><path d="m13 7 5 5-5 5"></path></svg>',
+        undo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7 4 12l5 5"></path><path d="M4 12h9a6 6 0 0 1 6 6v1"></path></svg>',
         emptyHistory: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h12a1.5 1.5 0 0 1 1.5 1.5v15L12 16.5 4.5 20V5A1.5 1.5 0 0 1 6 3.5Z"></path><path d="M8.5 8h7M8.5 11.5h4"></path></svg>'
       };
 
@@ -1604,6 +1999,11 @@
         dutyName: document.getElementById('dutyName'),
         statusPill: document.getElementById('statusPill'),
         dutyNote: document.getElementById('dutyNote'),
+        skipBtn: document.getElementById('skipBtn'),
+        skipNotice: document.getElementById('skipNotice'),
+        skipNoticeTitle: document.getElementById('skipNoticeTitle'),
+        skipNoticeText: document.getElementById('skipNoticeText'),
+        undoSkipBtn: document.getElementById('undoSkipBtn'),
         nextDateValue: document.getElementById('nextDateValue'),
         nextDateSub: document.getElementById('nextDateSub'),
         nextMemberValue: document.getElementById('nextMemberValue'),
@@ -1621,6 +2021,7 @@
         historyHint: document.getElementById('historyHint'),
         historyList: document.getElementById('historyList'),
         clearHistoryBtn: document.getElementById('clearHistoryBtn'),
+        resetDataBtn: document.getElementById('resetDataBtn'),
         storageNote: document.getElementById('storageNote'),
         storageText: document.getElementById('storageText'),
         themeToggle: document.getElementById('themeToggle'),
@@ -1630,7 +2031,13 @@
         dialog: document.getElementById('confirmDialog'),
         dialogTitle: document.getElementById('dialogTitle'),
         dialogText: document.getElementById('dialogText'),
-        dialogConfirm: document.getElementById('dialogConfirm')
+        dialogConfirm: document.getElementById('dialogConfirm'),
+        leaveDialog: document.getElementById('leaveDialog'),
+        leaveForm: document.getElementById('leaveForm'),
+        leaveText: document.getElementById('leaveText'),
+        leaveReason: document.getElementById('leaveReason'),
+        leaveError: document.getElementById('leaveError'),
+        leaveCancel: document.getElementById('leaveCancel')
       };
 
       var storageOK = true;
@@ -1639,11 +2046,13 @@
       var toastTimer = null;
       var pendingConfirm = null;
       var dialogReturnFocus = null;
+      var leaveReturnFocus = null;
 
       init();
 
       function init() {
-        if (syncRotation(false)) saveState();
+        syncRotation(false);
+        saveState();
         bindEvents();
         updateStorageNote();
         applyTheme();
@@ -1656,7 +2065,12 @@
         els.addForm.addEventListener('submit', handleAddMember);
         els.checkBtn.addEventListener('click', handleCheckIn);
         els.undoBtn.addEventListener('click', handleUndo);
+        els.skipBtn.addEventListener('click', openLeaveDialog);
+        els.undoSkipBtn.addEventListener('click', function () {
+          undoLastSkip();
+        });
         els.clearHistoryBtn.addEventListener('click', requestClearHistory);
+        els.resetDataBtn.addEventListener('click', requestResetAll);
         els.themeToggle.addEventListener('click', cycleTheme);
         els.nameInput.addEventListener('input', clearNameError);
 
@@ -1664,6 +2078,29 @@
           var button = event.target.closest('[data-delete-id]');
           if (!button) return;
           requestDeleteMember(button.getAttribute('data-delete-id'));
+        });
+
+        els.historyList.addEventListener('click', function (event) {
+          var button = event.target.closest('[data-history-id]');
+          if (!button) return;
+          requestDeleteHistory(button.getAttribute('data-history-id'));
+        });
+
+        els.leaveReason.addEventListener('input', clearLeaveError);
+        els.leaveForm.addEventListener('submit', handleLeaveSubmit);
+        els.leaveCancel.addEventListener('click', function () {
+          els.leaveDialog.close('cancel');
+        });
+        els.leaveDialog.addEventListener('click', function (event) {
+          if (event.target === els.leaveDialog) {
+            els.leaveDialog.close('cancel');
+          }
+        });
+        els.leaveDialog.addEventListener('close', function () {
+          if (leaveReturnFocus && leaveReturnFocus.isConnected && typeof leaveReturnFocus.focus === 'function') {
+            leaveReturnFocus.focus({ preventScroll: true });
+          }
+          leaveReturnFocus = null;
         });
 
         document.addEventListener('click', function (event) {
@@ -1710,10 +2147,11 @@
 
       function createEmptyState() {
         return {
-          version: 1,
+          version: STATE_VERSION,
           members: [],
           duty: null,
           history: [],
+          lastSkip: null,
           settings: { theme: 'auto' }
         };
       }
@@ -1748,10 +2186,14 @@
         });
 
         if (parsed.duty && typeof parsed.duty === 'object') {
-          var dutyDate = normalizeDateKey(parsed.duty.date);
           var dutyMemberId = typeof parsed.duty.memberId === 'string' ? parsed.duty.memberId : '';
-          if (dutyDate && memberIds.has(dutyMemberId)) {
-            next.duty = { date: dutyDate, memberId: dutyMemberId };
+          var dutyWeek = normalizeDateKey(parsed.duty.weekStart);
+          if (dutyWeek) dutyWeek = weekStartKey(keyToDate(dutyWeek));
+          if (!dutyWeek && normalizeDateKey(parsed.duty.date)) {
+            dutyWeek = currentWeekStart();
+          }
+          if (dutyWeek && memberIds.has(dutyMemberId)) {
+            next.duty = { weekStart: dutyWeek, memberId: dutyMemberId };
           }
         }
 
@@ -1770,16 +2212,42 @@
             var fallback = new Date(date + 'T12:00:00');
             checkedAt = isNaN(fallback.getTime()) ? new Date().toISOString() : fallback.toISOString();
           }
+          var type = item.type === 'skip' ? 'skip' : 'done';
           next.history.push({
             id: id,
+            type: type,
             date: date,
             memberId: typeof item.memberId === 'string' ? item.memberId : '',
             memberName: memberName,
+            reason: type === 'skip' ? (truncateReason(normalizeReason(item.reason)) || '未填写原因') : '',
+            handoffToId: type === 'skip' && typeof item.handoffToId === 'string' ? item.handoffToId : '',
+            handoffToName: type === 'skip' ? truncateName(normalizeName(item.handoffToName)) : '',
             checkedAt: checkedAt
           });
         });
 
         next.history.sort(sortHistory);
+
+        if (parsed.lastSkip && typeof parsed.lastSkip === 'object') {
+          var lastRecordId = typeof parsed.lastSkip.recordId === 'string' ? parsed.lastSkip.recordId : '';
+          var fromMemberId = typeof parsed.lastSkip.fromMemberId === 'string' ? parsed.lastSkip.fromMemberId : '';
+          var toMemberId = typeof parsed.lastSkip.toMemberId === 'string' ? parsed.lastSkip.toMemberId : '';
+          var lastWeek = normalizeDateKey(parsed.lastSkip.weekStart);
+          if (lastWeek) lastWeek = weekStartKey(keyToDate(lastWeek));
+          var hasRecord = next.history.some(function (record) {
+            return record.id === lastRecordId && record.type === 'skip';
+          });
+          if (lastWeek && lastRecordId && hasRecord && memberIds.has(fromMemberId) && memberIds.has(toMemberId)) {
+            next.lastSkip = {
+              recordId: lastRecordId,
+              fromMemberId: fromMemberId,
+              toMemberId: toMemberId,
+              weekStart: lastWeek,
+              createdAt: validISO(parsed.lastSkip.createdAt) || new Date().toISOString()
+            };
+          }
+        }
+
         if (parsed.settings && THEME_ORDER.indexOf(parsed.settings.theme) !== -1) {
           next.settings.theme = parsed.settings.theme;
         }
@@ -1817,6 +2285,15 @@
 
       function truncateName(name) {
         return Array.from(name).slice(0, MAX_NAME_LENGTH).join('');
+      }
+
+      function normalizeReason(value) {
+        if (typeof value !== 'string') return '';
+        return value.trim().replace(/\s+/g, ' ');
+      }
+
+      function truncateReason(reason) {
+        return Array.from(reason).slice(0, MAX_REASON_LENGTH).join('');
       }
 
       function makeId() {
@@ -1866,6 +2343,22 @@
         var fromUTC = Date.UTC(from[0], from[1] - 1, from[2]);
         var toUTC = Date.UTC(to[0], to[1] - 1, to[2]);
         return Math.round((toUTC - fromUTC) / 86400000);
+      }
+
+      function weekStartKey(date) {
+        var base = date ? new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0, 0) : new Date();
+        var day = base.getDay();
+        var offset = day === 0 ? -6 : 1 - day;
+        base.setDate(base.getDate() + offset);
+        return dateKey(base);
+      }
+
+      function currentWeekStart() {
+        return weekStartKey(new Date());
+      }
+
+      function nextWeekStart() {
+        return addDaysKey(currentWeekStart(), 7);
       }
 
       function weekdayName(key) {
@@ -1931,41 +2424,44 @@
       }
 
       function syncRotation(announce) {
-        var today = todayKey();
+        var weekStart = currentWeekStart();
         var members = state.members;
 
         if (!members.length) {
-          if (state.duty !== null) {
+          if (state.duty !== null || state.lastSkip !== null) {
             state.duty = null;
+            state.lastSkip = null;
             return true;
           }
           return false;
         }
 
-        var currentIndex = -1;
+        var index = -1;
         if (state.duty && state.duty.memberId) {
-          currentIndex = members.findIndex(function (member) {
+          index = members.findIndex(function (member) {
             return member.id === state.duty.memberId;
           });
         }
 
-        if (currentIndex === -1 || !state.duty || !normalizeDateKey(state.duty.date)) {
-          state.duty = { date: today, memberId: members[0].id };
+        if (index === -1 || !state.duty || !normalizeDateKey(state.duty.weekStart)) {
+          state.duty = { weekStart: weekStart, memberId: members[0].id };
+          state.lastSkip = null;
           return true;
         }
 
-        if (state.duty.date === today) return false;
+        if (state.duty.weekStart === weekStart) return false;
 
-        var difference = daysBetween(state.duty.date, today);
-        if (difference < 0) {
-          state.duty = { date: today, memberId: state.duty.memberId };
+        var weekDifference = Math.round(daysBetween(state.duty.weekStart, weekStart) / 7);
+        if (weekDifference <= 0) {
+          state.duty = { weekStart: weekStart, memberId: state.duty.memberId };
+          state.lastSkip = null;
           return true;
         }
 
-        var steps = difference > 0 ? difference : 1;
-        var nextIndex = (currentIndex + steps) % members.length;
-        state.duty = { date: today, memberId: members[nextIndex].id };
-        if (announce) toast('新的一天，今天轮到「' + members[nextIndex].name + '」');
+        var nextIndex = (index + weekDifference) % members.length;
+        state.duty = { weekStart: weekStart, memberId: members[nextIndex].id };
+        state.lastSkip = null;
+        if (announce) toast('新的一周，本周轮到「' + members[nextIndex].name + '」');
         return true;
       }
 
@@ -1981,11 +2477,51 @@
         return index === -1 ? null : state.members[index];
       }
 
-      function todayRecordFor(memberId) {
+      function nextMemberFor(member) {
+        if (!member || state.members.length < 2) return null;
+        var index = state.members.findIndex(function (item) {
+          return item.id === member.id;
+        });
+        if (index === -1) return null;
+        return state.members[(index + 1) % state.members.length];
+      }
+
+      function todayDoneRecordFor(memberId) {
         var today = todayKey();
         return state.history.find(function (record) {
-          return record.date === today && record.memberId === memberId;
+          return record.date === today && record.memberId === memberId && record.type !== 'skip';
         }) || null;
+      }
+
+      function getActiveSkip() {
+        var skip = state.lastSkip;
+        if (!skip || skip.weekStart !== currentWeekStart()) return null;
+        if (!state.duty || state.duty.memberId !== skip.toMemberId) return null;
+        var record = state.history.find(function (item) {
+          return item.id === skip.recordId && item.type === 'skip';
+        });
+        if (!record) return null;
+        var from = state.members.find(function (member) {
+          return member.id === skip.fromMemberId;
+        });
+        var to = state.members.find(function (member) {
+          return member.id === skip.toMemberId;
+        });
+        if (!from || !to) return null;
+        return { skip: skip, record: record, from: from, to: to };
+      }
+
+      function buildMemberStats() {
+        var stats = {};
+        state.members.forEach(function (member) {
+          stats[member.id] = { normal: 0, leave: 0 };
+        });
+        state.history.forEach(function (record) {
+          if (!stats[record.memberId]) return;
+          if (record.type === 'skip') stats[record.memberId].leave += 1;
+          else stats[record.memberId].normal += 1;
+        });
+        return stats;
       }
 
       function getInitial(name) {
@@ -2014,6 +2550,7 @@
           els.heroEmpty.hidden = false;
           els.heroActive.hidden = true;
           els.dutyCard.classList.remove('is-done', 'celebrate');
+          els.skipNotice.hidden = true;
           els.memberList.hidden = true;
           els.memberList.innerHTML = '';
           els.memberEmpty.hidden = false;
@@ -2028,25 +2565,38 @@
 
         var index = currentIndex();
         if (index === -1) {
-          state.duty = { date: today, memberId: state.members[0].id };
+          state.duty = { weekStart: currentWeekStart(), memberId: state.members[0].id };
           saveState();
           index = 0;
         }
 
         var current = state.members[index];
         var next = state.members[(index + 1) % state.members.length];
-        var record = todayRecordFor(current.id);
-        var nextDate = addDaysKey(today, 1);
+        var record = todayDoneRecordFor(current.id);
+        var nextDate = nextWeekStart();
+        var daysToNext = Math.max(1, daysBetween(today, nextDate));
+        var activeSkip = getActiveSkip();
 
         els.dutyName.textContent = current.name;
         els.dutyAvatar.textContent = getInitial(current.name);
         els.nextDateValue.textContent = formatMonthDay(nextDate);
         els.nextDateValue.title = formatFullDate(nextDate);
-        els.nextDateSub.textContent = '明天 · ' + weekdayName(nextDate);
+        els.nextDateSub.textContent = daysToNext === 1 ? '明天 · 周一' : '下周一 · ' + daysToNext + '天后';
         els.nextMemberValue.textContent = next.name;
         els.nextMemberValue.title = next.name;
         els.nextMemberSub.textContent = state.members.length === 1 ? '目前只有 1 人轮值' : '按名单顺序接棒';
         els.checkBtn.setAttribute('aria-label', '打卡完成：' + current.name);
+        els.skipBtn.disabled = state.members.length < 2;
+        els.skipBtn.title = state.members.length < 2 ? '只有一位室友，无法顺延' : '跳过本周并顺延给下一位';
+        els.skipBtn.setAttribute('aria-label', state.members.length < 2 ? '跳过/请假不可用：只有一位室友' : '跳过/请假，将本周任务顺延给 ' + next.name);
+
+        if (activeSkip) {
+          els.skipNotice.hidden = false;
+          els.skipNoticeTitle.textContent = activeSkip.from.name + ' 已请假，本周由 ' + activeSkip.to.name + ' 接替';
+          els.skipNoticeText.textContent = '原因：' + activeSkip.record.reason;
+        } else {
+          els.skipNotice.hidden = true;
+        }
 
         if (record) {
           els.dutyCard.classList.add('is-done');
@@ -2062,22 +2612,24 @@
           els.statusPill.textContent = '待打卡';
           els.statusPill.classList.remove('done');
           els.statusPill.classList.add('pending');
-          els.dutyNote.textContent = '每天 00:00 自动轮换';
+          els.dutyNote.textContent = '每周一 00:00 自动轮换';
           els.checkBtn.hidden = false;
           els.donePanel.hidden = true;
         }
 
         renderMembers(current.id, next.id);
-        renderHistory(today);
+        renderHistory(today, activeSkip);
       }
 
       function renderMembers(currentId, nextId) {
         var multiple = state.members.length > 1;
+        var stats = buildMemberStats();
         els.memberList.innerHTML = state.members.map(function (member, index) {
           var isCurrent = member.id === currentId;
           var isNext = multiple && member.id === nextId && !isCurrent;
+          var memberStats = stats[member.id] || { normal: 0, leave: 0 };
           var tag = '';
-          if (isCurrent) tag = '<span class="tag tag-current">今日</span>';
+          if (isCurrent) tag = '<span class="tag tag-current">本周</span>';
           else if (isNext) tag = '<span class="tag tag-next">下一位</span>';
 
           return '<li class="member-row' + (isCurrent ? ' is-current' : '') + '"' + (isCurrent ? ' aria-current="true"' : '') + '>' +
@@ -2088,33 +2640,53 @@
                 '<span class="member-name" title="' + escapeHTML(member.name) + '">' + escapeHTML(member.name) + '</span>' +
                 tag +
               '</div>' +
+              '<div class="member-stats" title="正常值日 ' + memberStats.normal + ' 次，请假少做 ' + memberStats.leave + ' 次">' +
+                '<span class="member-stat"><span class="stat-dot normal" aria-hidden="true"></span>正常值日 <strong>' + memberStats.normal + '</strong> 次</span>' +
+                ' ' +
+                '<span class="member-stat"><span class="stat-dot leave" aria-hidden="true"></span>请假少做 <strong>' + memberStats.leave + '</strong> 次</span>' +
+              '</div>' +
             '</div>' +
             '<button class="icon-btn" type="button" data-delete-id="' + escapeHTML(member.id) + '" aria-label="将 ' + escapeHTML(member.name) + ' 移出值日名单" title="移出名单">' + ICONS.trash + '</button>' +
           '</li>';
         }).join('');
       }
 
-      function renderHistory(today) {
+      function renderHistory(today, activeSkip) {
         var records = state.history;
+        var doneCount = records.filter(function (record) { return record.type !== 'skip'; }).length;
+        var leaveCount = records.filter(function (record) { return record.type === 'skip'; }).length;
         els.historyHint.textContent = records.length
-          ? '共 ' + records.length + ' 次完成 · 按时间倒序'
-          : '完成第一次打卡后，记录会出现在这里';
+          ? '共 ' + doneCount + ' 次正常 · ' + leaveCount + ' 次请假'
+          : '完成第一次打卡或请假后，记录会出现在这里';
         els.clearHistoryBtn.hidden = records.length === 0;
 
         if (!records.length) {
-          els.historyList.innerHTML = '<li class="history-empty">' + ICONS.emptyHistory + '还没有打卡记录<br>完成今天的值日后，来打个卡吧。</li>';
+          els.historyList.innerHTML = '<li class="history-empty">' + ICONS.emptyHistory + '还没有值日记录<br>完成今天的值日后，来打个卡吧。</li>';
           return;
         }
 
         els.historyList.innerHTML = records.map(function (record) {
+          var isSkip = record.type === 'skip';
+          var isActiveSkip = Boolean(activeSkip && activeSkip.record.id === record.id);
           var todayTag = record.date === today ? '<span class="history-today">今天</span>' : '';
-          return '<li class="history-item">' +
-            '<span class="history-check" aria-hidden="true">' + ICONS.check + '</span>' +
+          var leaveTag = isSkip ? '<span class="history-leave">请假</span>' : '';
+          var reason = isSkip
+            ? '<div class="history-reason">原因：' + escapeHTML(record.reason) + (record.handoffToName ? ' · 顺延给 ' + escapeHTML(record.handoffToName) : '') + '</div>'
+            : '';
+          var actionLabel = isActiveSkip ? '撤销这次请假' : '删除这条记录';
+          var actionIcon = isActiveSkip ? ICONS.undo : ICONS.trash;
+
+          return '<li class="history-item' + (isSkip ? ' is-skip' : '') + '">' +
+            '<span class="history-check" aria-hidden="true">' + (isSkip ? ICONS.leave : ICONS.check) + '</span>' +
             '<div class="history-main">' +
-              '<div class="history-name">' + escapeHTML(record.memberName) + todayTag + '</div>' +
+              '<div class="history-name">' + escapeHTML(record.memberName) + leaveTag + todayTag + '</div>' +
               '<div class="history-date">' + escapeHTML(formatHistoryDate(record.date, today)) + '</div>' +
+              reason +
             '</div>' +
-            '<time class="history-time" datetime="' + escapeHTML(record.checkedAt) + '" title="' + escapeHTML(formatTimestamp(record.checkedAt)) + '">' + escapeHTML(formatTime(record.checkedAt)) + '</time>' +
+            '<div class="history-side">' +
+              '<time class="history-time" datetime="' + escapeHTML(record.checkedAt) + '" title="' + escapeHTML(formatTimestamp(record.checkedAt)) + '">' + escapeHTML(formatTime(record.checkedAt)) + '</time>' +
+              '<button class="history-action' + (isActiveSkip ? ' is-undo' : '') + '" type="button" data-history-id="' + escapeHTML(record.id) + '" aria-label="' + actionLabel + '：' + escapeHTML(record.memberName) + ' ' + escapeHTML(formatMonthDay(record.date)) + '" title="' + actionLabel + '">' + actionIcon + '</button>' +
+            '</div>' +
           '</li>';
         }).join('');
       }
@@ -2147,7 +2719,7 @@
         };
         state.members.push(member);
         if (!state.duty) {
-          state.duty = { date: todayKey(), memberId: member.id };
+          state.duty = { weekStart: currentWeekStart(), memberId: member.id };
         }
 
         clearNameError();
@@ -2155,7 +2727,7 @@
         saveState();
         render();
         toast(state.members.length === 1
-          ? '已添加 ' + member.name + '，从今天开始轮值'
+          ? '已添加 ' + member.name + '，从本周开始轮值'
           : member.name + ' 已加入轮值名单');
         els.nameInput.focus({ preventScroll: true });
       }
@@ -2183,11 +2755,11 @@
         var isCurrent = state.duty && state.duty.memberId === id;
         var message;
         if (isCurrent && state.members.length === 1) {
-          message = '「' + member.name + '」是今天的值日生。移出后名单将为空，今日值日也会清空，历史打卡记录会保留。';
+          message = '「' + member.name + '」是本周的值日生。移出后名单将为空，本周值日也会清空，历史记录会保留。';
         } else if (isCurrent) {
-          message = '「' + member.name + '」是今天的值日生。移出后，将由下一位室友接替今天，历史打卡记录会保留。';
+          message = '「' + member.name + '」是本周的值日生。移出后，将由下一位室友接替本周剩余时间，历史记录会保留。';
         } else {
-          message = '确定将「' + member.name + '」从名单中移除吗？历史打卡记录会保留。';
+          message = '确定将「' + member.name + '」从名单中移除吗？历史记录会保留。';
         }
 
         openConfirm('移出值日名单？', message, '移出', function () {
@@ -2212,15 +2784,24 @@
         } else if (wasCurrent) {
           var nextIndex = index % state.members.length;
           handoff = state.members[nextIndex];
-          state.duty = { date: todayKey(), memberId: handoff.id };
+          state.duty = { weekStart: currentWeekStart(), memberId: handoff.id };
         } else if (!state.duty || !state.members.some(function (member) { return member.id === state.duty.memberId; })) {
-          state.duty = { date: todayKey(), memberId: state.members[0].id };
+          state.duty = { weekStart: currentWeekStart(), memberId: state.members[0].id };
+        }
+
+        if (state.lastSkip) {
+          var skipFromExists = state.members.some(function (member) { return member.id === state.lastSkip.fromMemberId; });
+          var skipToExists = state.members.some(function (member) { return member.id === state.lastSkip.toMemberId; });
+          var skipRecordExists = state.history.some(function (record) { return record.id === state.lastSkip.recordId; });
+          if (!skipFromExists || !skipToExists || !skipRecordExists || !state.duty || state.duty.memberId !== state.lastSkip.toMemberId) {
+            state.lastSkip = null;
+          }
         }
 
         saveState();
         render();
         if (handoff) {
-          toast(removed.name + ' 已移出，今天由 ' + handoff.name + ' 接替');
+          toast(removed.name + ' 已移出，本周由 ' + handoff.name + ' 接替');
         } else {
           toast(removed.name + ' 已移出轮值名单');
         }
@@ -2233,16 +2814,20 @@
           toast('请先添加室友');
           return;
         }
-        if (todayRecordFor(member.id)) {
+        if (todayDoneRecordFor(member.id)) {
           toast('今天已经打过卡啦');
           return;
         }
 
         state.history.push({
           id: makeId(),
+          type: 'done',
           date: todayKey(),
           memberId: member.id,
           memberName: member.name,
+          reason: '',
+          handoffToId: '',
+          handoffToName: '',
           checkedAt: new Date().toISOString()
         });
         state.history.sort(sortHistory);
@@ -2261,7 +2846,7 @@
         if (!member) return;
         var today = todayKey();
         var index = state.history.findIndex(function (record) {
-          return record.date === today && record.memberId === member.id;
+          return record.date === today && record.memberId === member.id && record.type !== 'skip';
         });
         if (index === -1) return;
 
@@ -2271,19 +2856,204 @@
         toast('已撤销今日打卡');
       }
 
+      function openLeaveDialog() {
+        if (syncRotation(false)) {
+          saveState();
+          render();
+        }
+        var member = currentMember();
+        if (!member) {
+          toast('请先添加室友');
+          return;
+        }
+        if (state.members.length < 2) {
+          toast('只有一位室友，无法顺延');
+          return;
+        }
+        var next = nextMemberFor(member);
+        if (!next) return;
+
+        var message = '「' + member.name + '」本周的值日任务将顺延给「' + next.name + '」，提交后立即生效。';
+
+        if (!els.leaveDialog || typeof els.leaveDialog.showModal !== 'function') {
+          var answer = window.prompt('跳过/请假\n\n' + message + '\n\n请填写请假原因：', '');
+          if (answer !== null) performLeave(answer);
+          return;
+        }
+
+        els.leaveText.textContent = message;
+        els.leaveReason.value = '';
+        clearLeaveError();
+        leaveReturnFocus = document.activeElement;
+        els.leaveDialog.returnValue = '';
+        if (els.leaveDialog.open) els.leaveDialog.close('cancel');
+        els.leaveDialog.showModal();
+        window.setTimeout(function () {
+          els.leaveReason.focus({ preventScroll: true });
+        }, 30);
+      }
+
+      function handleLeaveSubmit(event) {
+        event.preventDefault();
+        var reason = truncateReason(normalizeReason(els.leaveReason.value));
+        if (!reason) {
+          showLeaveError('请填写请假原因');
+          return;
+        }
+        if (performLeave(reason)) {
+          els.leaveDialog.close('confirm');
+        }
+      }
+
+      function performLeave(rawReason) {
+        syncRotation(false);
+        var member = currentMember();
+        var reason = truncateReason(normalizeReason(rawReason));
+        if (!member) {
+          toast('请先添加室友');
+          return false;
+        }
+        if (state.members.length < 2) {
+          toast('只有一位室友，无法顺延');
+          return false;
+        }
+        if (!reason) {
+          toast('请填写请假原因');
+          return false;
+        }
+
+        var next = nextMemberFor(member);
+        if (!next) return false;
+        var now = new Date();
+        var weekStart = currentWeekStart();
+        var record = {
+          id: makeId(),
+          type: 'skip',
+          date: todayKey(),
+          memberId: member.id,
+          memberName: member.name,
+          reason: reason,
+          handoffToId: next.id,
+          handoffToName: next.name,
+          checkedAt: now.toISOString()
+        };
+
+        state.history.push(record);
+        state.history.sort(sortHistory);
+        state.duty = { weekStart: weekStart, memberId: next.id };
+        state.lastSkip = {
+          recordId: record.id,
+          fromMemberId: member.id,
+          toMemberId: next.id,
+          weekStart: weekStart,
+          createdAt: now.toISOString()
+        };
+
+        saveState();
+        render();
+        toast('已请假，本周由 ' + next.name + ' 接替');
+        return true;
+      }
+
+      function showLeaveError(message) {
+        els.leaveError.textContent = message;
+        els.leaveError.hidden = false;
+        els.leaveReason.setAttribute('aria-invalid', 'true');
+        els.leaveReason.focus({ preventScroll: true });
+      }
+
+      function clearLeaveError() {
+        if (els.leaveError.hidden) return;
+        els.leaveError.textContent = '';
+        els.leaveError.hidden = true;
+        els.leaveReason.removeAttribute('aria-invalid');
+      }
+
+      function undoLastSkip() {
+        var active = getActiveSkip();
+        if (!active) {
+          toast('这次请假已无法撤销');
+          return false;
+        }
+
+        state.history = state.history.filter(function (record) {
+          return record.id !== active.record.id;
+        });
+        state.duty = { weekStart: currentWeekStart(), memberId: active.from.id };
+        state.lastSkip = null;
+        saveState();
+        render();
+        toast('已撤销请假，恢复 ' + active.from.name + ' 为本周值日生');
+        return true;
+      }
+
+      function requestDeleteHistory(id) {
+        var record = state.history.find(function (item) {
+          return item.id === id;
+        });
+        if (!record) return;
+
+        var active = getActiveSkip();
+        var isActiveSkip = Boolean(active && active.record.id === id);
+        var title = isActiveSkip ? '撤销这次请假？' : '删除这条记录？';
+        var message;
+        if (isActiveSkip) {
+          message = '将撤销「' + record.memberName + '」的请假，恢复 TA 为本周值日生，并移除这条请假记录。';
+        } else if (record.type === 'skip') {
+          message = '将删除「' + record.memberName + '」在 ' + formatMonthDay(record.date) + ' 的请假记录，请假次数会同步更新。当前值日安排不会改变。';
+        } else {
+          message = '将删除「' + record.memberName + '」在 ' + formatMonthDay(record.date) + ' 的打卡记录，正常值日次数会同步更新。';
+        }
+
+        openConfirm(title, message, isActiveSkip ? '撤销' : '删除', function () {
+          if (isActiveSkip) {
+            undoLastSkip();
+            return;
+          }
+          state.history = state.history.filter(function (item) {
+            return item.id !== id;
+          });
+          saveState();
+          render();
+          toast('记录已删除');
+        });
+      }
+
       function requestClearHistory() {
         if (!state.history.length) return;
         openConfirm(
-          '清空打卡记录？',
-          '将删除全部 ' + state.history.length + ' 条打卡记录，此操作无法撤销。',
+          '清空值日记录？',
+          '将删除全部 ' + state.history.length + ' 条打卡和请假记录，此操作无法撤销。',
           '清空',
           function () {
             state.history = [];
+            state.lastSkip = null;
             saveState();
             render();
-            toast('打卡记录已清空');
+            toast('值日记录已清空');
           }
         );
+      }
+
+      function requestResetAll() {
+        openConfirm(
+          '重置所有数据？',
+          '将清空 ' + state.members.length + ' 位室友、' + state.history.length + ' 条值日记录以及当前轮值状态，恢复到初始界面。此操作无法撤销。',
+          '重置',
+          resetAllData
+        );
+      }
+
+      function resetAllData() {
+        var theme = state.settings.theme;
+        state = createEmptyState();
+        state.settings.theme = theme;
+        els.nameInput.value = '';
+        clearNameError();
+        if (els.leaveDialog && els.leaveDialog.open) els.leaveDialog.close('cancel');
+        saveState();
+        render();
+        toast('已重置所有数据');
       }
 
       function openConfirm(title, message, confirmLabel, onConfirm) {
