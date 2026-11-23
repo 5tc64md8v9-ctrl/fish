@@ -1,4 +1,165 @@
-<body>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f3f0e9">
+  <meta name="description" content="宿舍换水小工具：添加室友、自动轮换、每次打卡并保存在本机。">
+  <title>宿舍换水</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23f08a4b'/%3E%3Cpath d='M19 33.5l11.5 11.5M41 19L28.5 31.5M27.5 30.5c-2.3-2.3-6-2.3-8.3 0l-2.7 2.7 8.3 8.3 2.7-2.7c2.3-2.3 2.3-6 0-8.3Z' fill='none' stroke='%232b1608' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <script>
+    (function () {
+      try {
+        var raw = localStorage.getItem('dorm-duty:v1');
+        var saved = raw ? JSON.parse(raw) : null;
+        var theme = saved && saved.settings && saved.settings.theme;
+        if (theme === 'light' || theme === 'dark') {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+        var dark = theme === 'dark' || (theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', dark ? '#0b1015' : '#f3f0e9');
+      } catch (error) {}
+    }());
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f0e9;
+      --glow-a: rgba(255, 167, 101, 0.24);
+      --glow-b: rgba(111, 174, 224, 0.13);
+      --surface: rgba(255, 253, 248, 0.78);
+      --surface-solid: #fffdf8;
+      --row: rgba(255, 255, 255, 0.52);
+      --inset: rgba(45, 40, 32, 0.045);
+      --input-bg: rgba(255, 255, 255, 0.86);
+      --border: rgba(39, 37, 33, 0.10);
+      --border-strong: rgba(39, 37, 33, 0.16);
+      --text: #1e2430;
+      --text-soft: #4f5967;
+      --text-muted: #626a77;
+      --accent: #f08a4b;
+      --accent-strong: #9c4516;
+      --accent-grad-a: #f4a065;
+      --accent-grad-b: #e77736;
+      --accent-soft: rgba(240, 138, 75, 0.14);
+      --accent-border: rgba(201, 101, 39, 0.24);
+      --accent-contrast: #2b1608;
+      --success: #157347;
+      --success-soft: rgba(21, 115, 71, 0.11);
+      --success-border: rgba(21, 115, 71, 0.22);
+      --danger: #b83232;
+      --danger-soft: rgba(184, 50, 50, 0.09);
+      --danger-border: rgba(184, 50, 50, 0.22);
+      --toast-bg: #20252c;
+      --toast-text: #fff8ef;
+      --shadow: 0 26px 60px -34px rgba(58, 44, 29, 0.38), 0 2px 6px rgba(58, 44, 29, 0.04);
+      --shadow-soft: 0 18px 44px -34px rgba(58, 44, 29, 0.30);
+      --focus: rgba(240, 138, 75, 0.30);
+      --hero-a: rgba(255, 177, 108, 0.26);
+      --hero-b: rgba(255, 255, 255, 0.14);
+      --scrollbar: rgba(79, 89, 103, 0.28);
+      --overlay: rgba(15, 20, 26, 0.46);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        color-scheme: dark;
+        --bg: #0b1015;
+        --glow-a: rgba(255, 143, 73, 0.13);
+        --glow-b: rgba(63, 143, 196, 0.10);
+        --surface: rgba(21, 29, 38, 0.76);
+        --surface-solid: #141c24;
+        --row: rgba(255, 255, 255, 0.035);
+        --inset: rgba(255, 255, 255, 0.045);
+        --input-bg: rgba(7, 12, 17, 0.48);
+        --border: rgba(255, 255, 255, 0.075);
+        --border-strong: rgba(255, 255, 255, 0.13);
+        --text: #edf2f6;
+        --text-soft: #b1bcc9;
+        --text-muted: #8d99a9;
+        --accent: #ff9b5c;
+        --accent-strong: #ffc092;
+        --accent-grad-a: #ffb176;
+        --accent-grad-b: #ff9b5c;
+        --accent-soft: rgba(255, 155, 92, 0.13);
+        --accent-border: rgba(255, 155, 92, 0.23);
+        --accent-contrast: #2b1608;
+        --success: #5cdb95;
+        --success-soft: rgba(92, 219, 149, 0.10);
+        --success-border: rgba(92, 219, 149, 0.22);
+        --danger: #ff8585;
+        --danger-soft: rgba(255, 133, 133, 0.10);
+        --danger-border: rgba(255, 133, 133, 0.22);
+        --toast-bg: #eef3f8;
+        --toast-text: #111820;
+        --shadow: 0 30px 70px -36px rgba(0, 0, 0, 0.75), 0 2px 8px rgba(0, 0, 0, 0.18);
+        --shadow-soft: 0 18px 46px -32px rgba(0, 0, 0, 0.7);
+        --focus: rgba(255, 155, 92, 0.34);
+        --hero-a: rgba(255, 143, 73, 0.16);
+        --hero-b: rgba(255, 255, 255, 0.035);
+        --scrollbar: rgba(177, 188, 201, 0.25);
+        --overlay: rgba(0, 0, 0, 0.58);
+      }
+    }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0b1015;
+      --glow-a: rgba(255, 143, 73, 0.13);
+      --glow-b: rgba(63, 143, 196, 0.10);
+      --surface: rgba(21, 29, 38, 0.76);
+      --surface-solid: #141c24;
+      --row: rgba(255, 255, 255, 0.035);
+      --inset: rgba(255, 255, 255, 0.045);
+      --input-bg: rgba(7, 12, 17, 0.48);
+      --border: rgba(255, 255, 255, 0.075);
+      --border-strong: rgba(255, 255, 255, 0.13);
+      --text: #edf2f6;
+      --text-soft: #b1bcc9;
+      --text-muted: #8d99a9;
+      --accent: #ff9b5c;
+      --accent-strong: #ffc092;
+      --accent-grad-a: #ffb176;
+      --accent-grad-b: #ff9b5c;
+      --accent-soft: rgba(255, 155, 92, 0.13);
+      --accent-border: rgba(255, 155, 92, 0.23);
+      --accent-contrast: #2b1608;
+      --success: #5cdb95;
+      --success-soft: rgba(92, 219, 149, 0.10);
+      --success-border: rgba(92, 219, 149, 0.22);
+      --danger: #ff8585;
+      --danger-soft: rgba(255, 133, 133, 0.10);
+      --danger-border: rgba(255, 133, 133, 0.22);
+      --toast-bg: #eef3f8;
+      --toast-text: #111820;
+      --shadow: 0 30px 70px -36px rgba(0, 0, 0, 0.75), 0 2px 8px rgba(0, 0, 0, 0.18);
+      --shadow-soft: 0 18px 46px -32px rgba(0, 0, 0, 0.7);
+      --focus: rgba(255, 155, 92, 0.34);
+      --hero-a: rgba(255, 143, 73, 0.16);
+      --hero-b: rgba(255, 255, 255, 0.035);
+      --scrollbar: rgba(177, 188, 201, 0.25);
+      --overlay: rgba(0, 0, 0, 0.58);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    html {
+      min-height: 100%;
+      -webkit-text-size-adjust: 100%;
+      scroll-behavior: smooth;
+    }
+    
+    <body>
   <div class="app">
     <header class="topbar">
       <div class="brand">
