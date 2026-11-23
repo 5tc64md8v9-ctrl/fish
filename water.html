@@ -1,0 +1,1204 @@
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3.4c3.3 3.8 5.8 6.8 5.8 10.1a5.8 5.8 0 0 1-11.6 0c0-3.3 2.5-6.3 5.8-10.1Z"></path>
+            <path d="M9.4 13.7c0 1.8 1.2 3 3 3"></path>
+          </svg>
+        </div>
+        <div class="brand-copy">
+          <p class="eyebrow">WATER DUTY</p>
+          <h1>宿舍换水</h1>
+        </div>
+      </div>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换主题">
+        <span id="themeIcon" aria-hidden="true"></span>
+        <span id="themeLabel">自动</span>
+      </button>
+    </header>
+    <main>
+      <section class="hero" id="waterCard" aria-label="当前换水">
+        <div class="hero-top">
+          <p class="kicker"><span class="live-dot" aria-hidden="true"></span>当前换水</p>
+          <span class="date-chip" id="todayDate"></span>
+        </div>
+        <div class="hero-empty" id="heroEmpty" hidden>
+          <svg class="empty-art" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+            <circle cx="60" cy="58" r="47" fill="var(--accent-soft)"></circle>
+            <path d="M49 30h22v8l7 10v33a7 7 0 0 1-7 7H49a7 7 0 0 1-7-7V48l7-10v-8Z" fill="var(--surface-solid)" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round"></path>
+            <path d="M47 27h26" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"></path>
+            <path d="M45 66h30v14a5 5 0 0 1-5 5H50a5 5 0 0 1-5-5V66Z" fill="var(--accent-soft)"></path>
+            <path d="M43 66c4.5 3 9.5 3 14 0s9.5-3 14 0" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round"></path>
+            <path d="M59 51c2.4 2.9 4.3 4.9 4.3 7a4.3 4.3 0 1 1-8.6 0c0-2.1 1.9-4.1 4.3-7Z" fill="var(--accent)" opacity=".7"></path>
+            <path d="M31 35l1.8 4.2L37 41l-4.2 1.8L31 47l-1.8-4.2L25 41l4.2-1.8L31 35Z" fill="var(--accent)" opacity=".82"></path>
+            <path d="M87 75l1.2 2.8 2.8 1.2-2.8 1.2L87 83l-1.2-2.8-2.8-1.2 2.8-1.2L87 75Z" fill="var(--accent)" opacity=".5"></path>
+            <path d="M84 45.5c3-3.2 7.7-3.4 10.7-.5M32.5 85c-1.6 2.7-4.8 3.6-7.5 2.1" stroke="var(--text-muted)" stroke-width="2.4" stroke-linecap="round" opacity=".55"></path>
+          </svg>
+          <h2>先添加第一位室友</h2>
+          <p>名单添加后，从第一位室友开始按次轮换。完成或跳过，都会自动顺延给下一位。</p>
+          <button class="btn btn-primary" type="button" data-focus-add>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+              <path d="M12 5v14M5 12h14"></path>
+            </svg>
+            添加室友
+          </button>
+        </div>
+        <div id="heroActive" hidden>
+          <div class="duty-main">
+            <div class="avatar" id="currentAvatar" aria-hidden="true"></div>
+            <div class="duty-copy">
+              <h2 class="duty-name" id="currentName"></h2>
+              <div class="status-line">
+                <span class="status-pill pending" id="statusPill">该换水啦</span>
+                <span class="duty-note" id="dutyNote">完成或跳过都会顺延</span>
+              </div>
+            </div>
+          </div>
+          <div class="duty-meta">
+            <div class="meta-cell water-cell">
+              <span class="meta-label">这桶水已经喝了</span>
+              <strong class="meta-value water-value" id="waterDays">—</strong>
+              <span class="meta-sub" id="waterLast">暂无换水记录</span>
+            </div>
+            <div class="meta-cell">
+              <span class="meta-label">下一位</span>
+              <strong class="meta-value" id="nextMemberValue">—</strong>
+              <span class="meta-sub" id="nextMemberSub">完成或跳过后接棒</span>
+            </div>
+          </div>
+          <div class="action-notice" id="actionNotice" hidden>
+            <span class="action-notice-icon" id="actionNoticeIcon" aria-hidden="true"></span>
+            <span class="action-notice-copy">
+              <strong id="actionNoticeTitle"></strong>
+              <span id="actionNoticeText"></span>
+            </span>
+            <button class="notice-undo" id="undoActionBtn" type="button">撤销</button>
+          </div>
+          <div class="action-row">
+            <button class="btn btn-primary" id="completeBtn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m5 12.5 4.2 4.2L19 7"></path>
+              </svg>
+              完成换水
+            </button>
+            <button class="btn btn-secondary" id="skipBtn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h13"></path>
+                <path d="m13 7 5 5-5 5"></path>
+              </svg>
+              跳过/不在
+            </button>
+          </div>
+        </div>
+      </section>
+      <section class="card" aria-labelledby="membersTitle">
+        <div class="section-head">
+          <div>
+            <h2 id="membersTitle">换水顺序</h2>
+            <p>完成或跳过后，自动顺延给下一位</p>
+          </div>
+          <span class="count-badge" id="memberCount">0 人</span>
+        </div>
+        <ul class="member-list" id="memberList"></ul>
+        <p class="mini-empty" id="memberEmpty" hidden>还没有室友，先添加一个吧。</p>
+        <form class="add-form" id="addForm" novalidate>
+          <label class="sr-only" for="nameInput">室友名字</label>
+          <input
+            class="add-input"
+            id="nameInput"
+            type="text"
+            placeholder="输入室友名字"
+            maxlength="16"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            enterkeyhint="done"
+            aria-describedby="nameError"
+          >
+          <button class="btn btn-add" type="submit" aria-label="添加室友">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+              <path d="M12 5v14M5 12h14"></path>
+            </svg>
+            <span>添加</span>
+          </button>
+        </form>
+        <p class="form-error" id="nameError" role="alert" hidden></p>
+      </section>
+      <section class="card" aria-labelledby="historyTitle">
+        <div class="section-head">
+          <div>
+            <h2 id="historyTitle">换水记录</h2>
+            <p id="historyHint">完成或跳过第一次换水后，记录会出现在这里</p>
+          </div>
+          <button class="clear-btn" id="clearHistoryBtn" type="button" hidden>清空记录</button>
+        </div>
+        <ul class="history-list" id="historyList"></ul>
+      </section>
+      <p class="storage-note" id="storageNote">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="5" y="10" width="14" height="10" rx="2.5"></rect>
+          <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+        </svg>
+        <span id="storageText">已开启本地保存 · 刷新不丢失</span>
+      </p>
+      <div class="reset-wrap">
+        <button class="reset-btn" id="resetDataBtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 7h16M9.5 7V5.4c0-.8.6-1.4 1.4-1.4h2.2c.8 0 1.4.6 1.4 1.4V7M6.4 7l.8 12c.1 1 .9 1.7 1.9 1.7h5.8c1 0 1.8-.7 1.9-1.7l.8-12"></path>
+            <path d="M10 11v5.5M14 11v5.5"></path>
+          </svg>
+          重置所有数据
+        </button>
+      </div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog class="confirm-dialog" id="confirmDialog" aria-labelledby="dialogTitle" aria-describedby="dialogText">
+    <form method="dialog">
+      <div class="dialog-body">
+        <div class="dialog-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 9v4"></path>
+            <path d="M12 17h.01"></path>
+            <path d="M10.3 4.2 2.8 17.5A2 2 0 0 0 4.5 20h15a2 2 0 0 0 1.7-2.5L13.7 4.2a2 2 0 0 0-3.4 0Z"></path>
+          </svg>
+        </div>
+        <h2 class="dialog-title" id="dialogTitle">确认操作？</h2>
+        <p class="dialog-text" id="dialogText"></p>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn btn-cancel" type="submit" value="cancel">取消</button>
+        <button class="btn btn-danger" id="dialogConfirm" type="submit" value="confirm">确认</button>
+      </div>
+    </form>
+  </dialog>
+  <dialog class="confirm-dialog leave-dialog" id="skipDialog" aria-labelledby="skipTitle" aria-describedby="skipText skipError">
+    <form id="skipForm">
+      <div class="dialog-body">
+        <div class="dialog-icon leave-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h13"></path>
+            <path d="m13 7 5 5-5 5"></path>
+          </svg>
+        </div>
+        <h2 class="dialog-title" id="skipTitle">跳过 / 不在</h2>
+        <p class="dialog-text" id="skipText"></p>
+        <label class="leave-label" for="skipReason">跳过原因</label>
+        <input
+          class="leave-input"
+          id="skipReason"
+          type="text"
+          maxlength="40"
+          placeholder="例如：不在宿舍、临时外出"
+          autocomplete="off"
+          enterkeyhint="done"
+          aria-describedby="skipText skipError"
+        >
+        <p class="form-error leave-error" id="skipError" role="alert" hidden></p>
+      </div>
+      <div class="dialog-actions">
+        <button class="btn btn-cancel" id="skipCancel" type="button">取消</button>
+        <button class="btn btn-leave" type="submit">确认跳过</button>
+      </div>
+    </form>
+  </dialog>
+  <script>
+    (function () {
+      'use strict';
+      var STORAGE_KEY = 'dorm-water:v1';
+      var MAX_NAME_LENGTH = 16;
+      var MAX_REASON_LENGTH = 40;
+      var THEME_ORDER = ['auto', 'dark', 'light'];
+      var WEEKDAYS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      var darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      var ICONS = {
+        auto: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><path d="M12 4v16" stroke-linecap="round"></path><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor" stroke="none"></path></svg>',
+        dark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.2 14.4A8.5 8.5 0 0 1 9.6 3.8 8.5 8.5 0 1 0 20.2 14.4Z"></path></svg>',
+        light: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2.8v2M12 19.2v2M21.2 12h-2M4.8 12h-2M18.5 5.5l-1.4 1.4M6.9 17.1l-1.4 1.4M18.5 18.5l-1.4-1.4M6.9 6.9 5.5 5.5"></path></svg>',
+        trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9.5 7V5.4c0-.8.6-1.4 1.4-1.4h2.2c.8 0 1.4.6 1.4 1.4V7M6.4 7l.8 12c.1 1 .9 1.7 1.9 1.7h5.8c1 0 1.8-.7 1.9-1.7l.8-12"></path><path d="M10 11v5.5M14 11v5.5"></path></svg>',
+        check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"></path></svg>',
+        skip: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"></path><path d="m13 7 5 5-5 5"></path></svg>',
+        undo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7 4 12l5 5"></path><path d="M4 12h9a6 6 0 0 1 6 6v1"></path></svg>',
+        emptyHistory: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5h12a1.5 1.5 0 0 1 1.5 1.5v15L12 16.5 4.5 20V5A1.5 1.5 0 0 1 6 3.5Z"></path><path d="M8.5 8h7M8.5 11.5h4"></path></svg>'
+      };
+      var els = {
+        waterCard: document.getElementById('waterCard'),
+        todayDate: document.getElementById('todayDate'),
+        heroEmpty: document.getElementById('heroEmpty'),
+        heroActive: document.getElementById('heroActive'),
+        currentAvatar: document.getElementById('currentAvatar'),
+        currentName: document.getElementById('currentName'),
+        statusPill: document.getElementById('statusPill'),
+        dutyNote: document.getElementById('dutyNote'),
+        waterDays: document.getElementById('waterDays'),
+        waterLast: document.getElementById('waterLast'),
+        nextMemberValue: document.getElementById('nextMemberValue'),
+        nextMemberSub: document.getElementById('nextMemberSub'),
+        actionNotice: document.getElementById('actionNotice'),
+        actionNoticeIcon: document.getElementById('actionNoticeIcon'),
+        actionNoticeTitle: document.getElementById('actionNoticeTitle'),
+        actionNoticeText: document.getElementById('actionNoticeText'),
+        undoActionBtn: document.getElementById('undoActionBtn'),
+        completeBtn: document.getElementById('completeBtn'),
+        skipBtn: document.getElementById('skipBtn'),
+        memberCount: document.getElementById('memberCount'),
+        memberList: document.getElementById('memberList'),
+        memberEmpty: document.getElementById('memberEmpty'),
+        addForm: document.getElementById('addForm'),
+        nameInput: document.getElementById('nameInput'),
+        nameError: document.getElementById('nameError'),
+        historyHint: document.getElementById('historyHint'),
+        historyList: document.getElementById('historyList'),
+        clearHistoryBtn: document.getElementById('clearHistoryBtn'),
+        resetDataBtn: document.getElementById('resetDataBtn'),
+        storageNote: document.getElementById('storageNote'),
+        storageText: document.getElementById('storageText'),
+        themeToggle: document.getElementById('themeToggle'),
+        themeIcon: document.getElementById('themeIcon'),
+        themeLabel: document.getElementById('themeLabel'),
+        toast: document.getElementById('toast'),
+        dialog: document.getElementById('confirmDialog'),
+        dialogTitle: document.getElementById('dialogTitle'),
+        dialogText: document.getElementById('dialogText'),
+        dialogConfirm: document.getElementById('dialogConfirm'),
+        skipDialog: document.getElementById('skipDialog'),
+        skipForm: document.getElementById('skipForm'),
+        skipText: document.getElementById('skipText'),
+        skipReason: document.getElementById('skipReason'),
+        skipError: document.getElementById('skipError'),
+        skipCancel: document.getElementById('skipCancel')
+      };
+      var storageOK = true;
+      var state = loadState();
+      var lastDay = todayKey();
+      var toastTimer = null;
+      var pendingConfirm = null;
+      var dialogReturnFocus = null;
+      var skipReturnFocus = null;
+      var actionLockUntil = 0;
+      init();
+      function init() {
+        ensureCurrent();
+        normalizeLastWaterDate();
+        cleanupLastAction();
+        saveState();
+        bindEvents();
+        updateStorageNote();
+        applyTheme();
+        render();
+        lastDay = todayKey();
+        window.setInterval(checkDayChange, 30000);
+      }
+      function bindEvents() {
+        els.addForm.addEventListener('submit', handleAddMember);
+        els.completeBtn.addEventListener('click', handleComplete);
+        els.skipBtn.addEventListener('click', openSkipDialog);
+        els.undoActionBtn.addEventListener('click', function () {
+          undoLastAction();
+        });
+        els.clearHistoryBtn.addEventListener('click', requestClearHistory);
+        els.resetDataBtn.addEventListener('click', requestResetAll);
+        els.themeToggle.addEventListener('click', cycleTheme);
+        els.nameInput.addEventListener('input', clearNameError);
+        els.memberList.addEventListener('click', function (event) {
+          var button = event.target.closest('[data-delete-id]');
+          if (!button) return;
+          requestDeleteMember(button.getAttribute('data-delete-id'));
+        });
+        els.historyList.addEventListener('click', function (event) {
+          var button = event.target.closest('[data-history-id]');
+          if (!button) return;
+          requestDeleteHistory(button.getAttribute('data-history-id'));
+        });
+        els.skipReason.addEventListener('input', clearSkipError);
+        els.skipForm.addEventListener('submit', handleSkipSubmit);
+        els.skipCancel.addEventListener('click', function () {
+          els.skipDialog.close('cancel');
+        });
+        els.skipDialog.addEventListener('click', function (event) {
+          if (event.target === els.skipDialog) {
+            els.skipDialog.close('cancel');
+          }
+        });
+        els.skipDialog.addEventListener('close', function () {
+          if (skipReturnFocus && skipReturnFocus.isConnected && typeof skipReturnFocus.focus === 'function') {
+            skipReturnFocus.focus({ preventScroll: true });
+          }
+          skipReturnFocus = null;
+        });
+        document.addEventListener('click', function (event) {
+          var trigger = event.target.closest('[data-focus-add]');
+          if (!trigger) return;
+          var behavior = reduceMotion.matches ? 'auto' : 'smooth';
+          els.nameInput.focus({ preventScroll: true });
+          els.nameInput.scrollIntoView({ behavior: behavior, block: 'center' });
+        });
+        document.addEventListener('visibilitychange', function () {
+          if (!document.hidden) checkDayChange();
+        });
+        window.addEventListener('focus', checkDayChange);
+        if (typeof darkQuery.addEventListener === 'function') {
+          darkQuery.addEventListener('change', function () {
+            if (state.settings.theme === 'auto') applyTheme();
+          });
+        } else if (typeof darkQuery.addListener === 'function') {
+          darkQuery.addListener(function () {
+            if (state.settings.theme === 'auto') applyTheme();
+          });
+        }
+        els.dialog.addEventListener('close', function () {
+          var callback = pendingConfirm;
+          pendingConfirm = null;
+          if (els.dialog.returnValue === 'confirm' && typeof callback === 'function') {
+            callback();
+          }
+          if (dialogReturnFocus && dialogReturnFocus.isConnected && typeof dialogReturnFocus.focus === 'function') {
+            dialogReturnFocus.focus({ preventScroll: true });
+          }
+          dialogReturnFocus = null;
+        });
+        els.dialog.addEventListener('click', function (event) {
+          if (event.target === els.dialog) {
+            els.dialog.close('cancel');
+          }
+        });
+      }
+      function createEmptyState() {
+        return {
+          version: 1,
+          members: [],
+          currentMemberId: null,
+          lastWaterDate: null,
+          history: [],
+          lastAction: null,
+          settings: { theme: 'auto' }
+        };
+      }
+      function loadState() {
+        var parsed = null;
+        try {
+          var raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) parsed = JSON.parse(raw);
+        } catch (error) {
+          storageOK = false;
+        }
+        if (!parsed || typeof parsed !== 'object') return createEmptyState();
+        var next = createEmptyState();
+        var memberIds = new Set();
+        var rawMembers = Array.isArray(parsed.members) ? parsed.members : [];
+        rawMembers.forEach(function (item) {
+          if (!item || typeof item !== 'object') return;
+          var name = normalizeName(item.name);
+          if (!name) return;
+          var id = typeof item.id === 'string' && item.id.trim() ? item.id.trim() : makeId();
+          while (memberIds.has(id)) id = makeId();
+          memberIds.add(id);
+          next.members.push({
+            id: id,
+            name: truncateName(name),
+            createdAt: validISO(item.createdAt) || new Date().toISOString()
+          });
+        });
+        var current = typeof parsed.currentMemberId === 'string' ? parsed.currentMemberId : '';
+        if (memberIds.has(current)) next.currentMemberId = current;
+        var lastWaterDate = normalizeDateKey(parsed.lastWaterDate);
+        if (lastWaterDate) next.lastWaterDate = lastWaterDate;
+        var historyIds = new Set();
+        var rawHistory = Array.isArray(parsed.history) ? parsed.history : [];
+        rawHistory.forEach(function (item) {
+          if (!item || typeof item !== 'object') return;
+          var date = normalizeDateKey(item.date);
+          var memberName = truncateName(normalizeName(item.memberName));
+          if (!date || !memberName) return;
+          var id = typeof item.id === 'string' && item.id.trim() ? item.id.trim() : makeId();
+          while (historyIds.has(id)) id = makeId();
+          historyIds.add(id);
+          var checkedAt = validISO(item.checkedAt);
+          if (!checkedAt) {
+            var fallback = new Date(date + 'T12:00:00');
+            checkedAt = isNaN(fallback.getTime()) ? new Date().toISOString() : fallback.toISOString();
+          }
+          var type = item.type === 'skip' ? 'skip' : 'done';
+          next.history.push({
+            id: id,
+            type: type,
+            date: date,
+            memberId: typeof item.memberId === 'string' ? item.memberId : '',
+            memberName: memberName,
+            reason: type === 'skip' ? (truncateReason(normalizeReason(item.reason)) || '未填写原因') : '',
+            checkedAt: checkedAt
+          });
+        });
+        next.history.sort(sortHistory);
+        if (parsed.lastAction && typeof parsed.lastAction === 'object') {
+          var actionType = parsed.lastAction.type === 'skip' ? 'skip' : (parsed.lastAction.type === 'done' ? 'done' : '');
+          var recordId = typeof parsed.lastAction.recordId === 'string' ? parsed.lastAction.recordId : '';
+          var fromMemberId = typeof parsed.lastAction.fromMemberId === 'string' ? parsed.lastAction.fromMemberId : '';
+          var toMemberId = typeof parsed.lastAction.toMemberId === 'string' ? parsed.lastAction.toMemberId : '';
+          if (actionType && recordId && memberIds.has(fromMemberId) && memberIds.has(toMemberId)) {
+            next.lastAction = {
+              recordId: recordId,
+              type: actionType,
+              fromMemberId: fromMemberId,
+              toMemberId: toMemberId,
+              previousWaterDate: normalizeDateKey(parsed.lastAction.previousWaterDate),
+              createdAt: validISO(parsed.lastAction.createdAt) || new Date().toISOString()
+            };
+          }
+        }
+        if (parsed.settings && THEME_ORDER.indexOf(parsed.settings.theme) !== -1) {
+          next.settings.theme = parsed.settings.theme;
+        }
+        return next;
+      }
+      function saveState() {
+        if (!storageOK) return false;
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          return true;
+        } catch (error) {
+          storageOK = false;
+          updateStorageNote();
+          toast('本地存储不可用，数据无法保存');
+          return false;
+        }
+      }
+      function updateStorageNote() {
+        if (!els.storageNote) return;
+        if (storageOK) {
+          els.storageText.textContent = '已开启本地保存 · 刷新不丢失';
+          els.storageNote.classList.remove('warn');
+        } else {
+          els.storageText.textContent = '当前浏览器禁用了本地存储，刷新后数据会丢失';
+          els.storageNote.classList.add('warn');
+        }
+      }
+      function normalizeName(value) {
+        if (typeof value !== 'string') return '';
+        return value.trim().replace(/\s+/g, ' ');
+      }
+      function truncateName(name) {
+        return Array.from(name).slice(0, MAX_NAME_LENGTH).join('');
+      }
+      function normalizeReason(value) {
+        if (typeof value !== 'string') return '';
+        return value.trim().replace(/\s+/g, ' ');
+      }
+      function truncateReason(reason) {
+        return Array.from(reason).slice(0, MAX_REASON_LENGTH).join('');
+      }
+      function makeId() {
+        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+          return window.crypto.randomUUID();
+        }
+        return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 9);
+      }
+      function pad(value) {
+        return String(value).padStart(2, '0');
+      }
+      function dateKey(date) {
+        return date.getFullYear() + '-' + pad(date.getMonth() + 1) + '-' + pad(date.getDate());
+      }
+      function todayKey() {
+        return dateKey(new Date());
+      }
+      function keyToDate(key) {
+        var parts = key.split('-').map(Number);
+        return new Date(parts[0], parts[1] - 1, parts[2], 12, 0, 0, 0);
+      }
+      function normalizeDateKey(value) {
+        if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+        var parts = value.split('-').map(Number);
+        var date = new Date(parts[0], parts[1] - 1, parts[2], 12, 0, 0, 0);
+        if (
+          date.getFullYear() !== parts[0] ||
+          date.getMonth() !== parts[1] - 1 ||
+          date.getDate() !== parts[2]
+        ) return null;
+        return value;
+      }
+      function daysBetween(fromKey, toKey) {
+        var from = fromKey.split('-').map(Number);
+        var to = toKey.split('-').map(Number);
+        var fromUTC = Date.UTC(from[0], from[1] - 1, from[2]);
+        var toUTC = Date.UTC(to[0], to[1] - 1, to[2]);
+        return Math.round((toUTC - fromUTC) / 86400000);
+      }
+      function weekdayName(key) {
+        return WEEKDAYS[keyToDate(key).getDay()];
+      }
+      function formatMonthDay(key) {
+        var date = keyToDate(key);
+        return (date.getMonth() + 1) + '月' + date.getDate() + '日';
+      }
+      function formatWaterDate(key) {
+        var date = keyToDate(key);
+        if (date.getFullYear() !== new Date().getFullYear()) {
+          return date.getFullYear() + '年' + formatMonthDay(key);
+        }
+        return formatMonthDay(key);
+      }
+      function formatChip(key) {
+        return formatMonthDay(key) + ' ' + weekdayName(key);
+      }
+      function formatFullDate(key) {
+        var date = keyToDate(key);
+        return date.getFullYear() + '年' + formatMonthDay(key) + ' ' + weekdayName(key);
+      }
+      function formatHistoryDate(key, today) {
+        var date = keyToDate(key);
+        var base = formatMonthDay(key) + ' ' + weekdayName(key);
+        if (key === today) return '今天 · ' + base;
+        if (key === addDaysKey(today, -1)) return '昨天 · ' + base;
+        if (date.getFullYear() !== new Date().getFullYear()) return date.getFullYear() + '年' + base;
+        return base;
+      }
+      function addDaysKey(key, amount) {
+        var parts = key.split('-').map(Number);
+        return dateKey(new Date(parts[0], parts[1] - 1, parts[2] + amount, 12, 0, 0, 0));
+      }
+      function formatTime(iso) {
+        var date = new Date(iso);
+        if (isNaN(date.getTime())) return '--:--';
+        return date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', hour12: false });
+      }
+      function formatTimestamp(iso) {
+        var date = new Date(iso);
+        if (isNaN(date.getTime())) return '';
+        try {
+          return new Intl.DateTimeFormat('zh-CN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'short',
+            hour: '2-digit',
+            minute: '2-digit'
+          }).format(date);
+        } catch (error) {
+          return date.toLocaleString('zh-CN');
+        }
+      }
+      function validISO(value) {
+        if (typeof value !== 'string' || !value) return null;
+        var date = new Date(value);
+        return isNaN(date.getTime()) ? null : date.toISOString();
+      }
+      function sortHistory(a, b) {
+        var byTime = String(b.checkedAt).localeCompare(String(a.checkedAt));
+        if (byTime !== 0) return byTime;
+        return String(b.date).localeCompare(String(a.date));
+      }
+      function ensureCurrent() {
+        if (!state.members.length) {
+          state.currentMemberId = null;
+          return false;
+        }
+        if (!state.currentMemberId || !state.members.some(function (member) {
+          return member.id === state.currentMemberId;
+        })) {
+          state.currentMemberId = state.members[0].id;
+        }
+        return true;
+      }
+      function normalizeLastWaterDate() {
+        if (state.lastWaterDate && normalizeDateKey(state.lastWaterDate)) return;
+        var latest = null;
+        state.history.forEach(function (record) {
+          if (record.type !== 'skip' && (!latest || record.date > latest)) latest = record.date;
+        });
+        state.lastWaterDate = latest;
+      }
+      function currentMember() {
+        if (!state.currentMemberId) return null;
+        return state.members.find(function (member) {
+          return member.id === state.currentMemberId;
+        }) || null;
+      }
+      function nextMemberFor(member) {
+        if (!member || !state.members.length) return null;
+        var index = state.members.findIndex(function (item) {
+          return item.id === member.id;
+        });
+        if (index === -1) return null;
+        return state.members[(index + 1) % state.members.length];
+      }
+      function getWaterDays() {
+        if (!state.lastWaterDate) return null;
+        return Math.max(0, daysBetween(state.lastWaterDate, todayKey()));
+      }
+      function getActiveAction() {
+        var action = state.lastAction;
+        if (!action) return null;
+        if (action.type !== 'done' && action.type !== 'skip') return null;
+        if (!state.currentMemberId || state.currentMemberId !== action.toMemberId) return null;
+        var record = state.history.find(function (item) {
+          return item.id === action.recordId && item.type === action.type;
+        });
+        if (!record) return null;
+        var from = state.members.find(function (member) {
+          return member.id === action.fromMemberId;
+        });
+        var to = state.members.find(function (member) {
+          return member.id === action.toMemberId;
+        });
+        if (!from || !to) return null;
+        if (action.type === 'done' && state.lastWaterDate !== record.date) return null;
+        return { action: action, record: record, from: from, to: to };
+      }
+      function cleanupLastAction() {
+        if (state.lastAction && !getActiveAction()) state.lastAction = null;
+      }
+      function buildMemberStats() {
+        var stats = {};
+        state.members.forEach(function (member) {
+          stats[member.id] = { normal: 0, skip: 0 };
+        });
+        state.history.forEach(function (record) {
+          if (!stats[record.memberId]) return;
+          if (record.type === 'skip') stats[record.memberId].skip += 1;
+          else stats[record.memberId].normal += 1;
+        });
+        return stats;
+      }
+      function getInitial(name) {
+        return Array.from(String(name).trim())[0] || '?';
+      }
+      function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, function (character) {
+          return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+          }[character];
+        });
+      }
+      function render() {
+        var today = todayKey();
+        els.todayDate.textContent = formatChip(today);
+        els.todayDate.title = formatFullDate(today);
+        els.memberCount.textContent = state.members.length + ' 人';
+        if (!state.members.length) {
+          els.heroEmpty.hidden = false;
+          els.heroActive.hidden = true;
+          els.waterCard.classList.remove('celebrate');
+          els.actionNotice.hidden = true;
+          els.memberList.hidden = true;
+          els.memberList.innerHTML = '';
+          els.memberEmpty.hidden = false;
+          renderHistory(today);
+          return;
+        }
+        els.heroEmpty.hidden = true;
+        els.heroActive.hidden = false;
+        els.memberEmpty.hidden = true;
+        els.memberList.hidden = false;
+        ensureCurrent();
+        var current = currentMember();
+        if (!current) return;
+        var next = nextMemberFor(current);
+        var days = getWaterDays();
+        var active = getActiveAction();
+        els.currentName.textContent = current.name;
+        els.currentAvatar.textContent = getInitial(current.name);
+        els.statusPill.textContent = '该换水啦';
+        els.statusPill.classList.remove('done');
+        els.statusPill.classList.add('pending');
+        els.dutyNote.textContent = '完成或跳过都会顺延';
+        if (days === null) {
+          els.waterDays.textContent = '—';
+          els.waterDays.title = '';
+          els.waterLast.textContent = '暂无换水记录';
+        } else {
+          els.waterDays.textContent = days + ' 天';
+          els.waterDays.title = '上次换水：' + formatFullDate(state.lastWaterDate);
+          if (days === 0 && state.lastWaterDate === today) {
+            els.waterLast.textContent = '今天刚换';
+          } else {
+            els.waterLast.textContent = '上次换水 · ' + formatWaterDate(state.lastWaterDate);
+          }
+        }
+        els.nextMemberValue.textContent = next ? next.name : '—';
+        els.nextMemberValue.title = next ? next.name : '';
+        els.nextMemberSub.textContent = state.members.length === 1 ? '目前只有 1 人' : '完成或跳过后接棒';
+        els.completeBtn.setAttribute('aria-label', '完成换水：' + current.name);
+        els.skipBtn.disabled = state.members.length < 2;
+        els.skipBtn.title = state.members.length < 2 ? '只有一位室友，无法跳过' : '跳过本次换水并顺延给下一位';
+        els.skipBtn.setAttribute('aria-label', state.members.length < 2 ? '跳过不可用：只有一位室友' : '跳过/不在，将本次换水顺延给 ' + (next ? next.name : '下一位'));
+        if (active) {
+          els.actionNotice.hidden = false;
+          els.actionNotice.classList.toggle('is-done', active.action.type === 'done');
+          els.actionNotice.classList.toggle('is-skip', active.action.type === 'skip');
+          if (active.action.type === 'done') {
+            els.actionNoticeIcon.innerHTML = ICONS.check;
+            els.actionNoticeTitle.textContent = active.from.name + ' 完成换水';
+            els.actionNoticeText.textContent = active.from.id === active.to.id
+              ? '名单中只有 1 人，继续由你负责 · ' + formatMonthDay(active.record.date)
+              : '已顺延给 ' + active.to.name + ' · ' + formatMonthDay(active.record.date);
+            els.undoActionBtn.textContent = '撤销完成';
+          } else {
+            els.actionNoticeIcon.innerHTML = ICONS.skip;
+            els.actionNoticeTitle.textContent = active.from.name + ' 跳过/不在';
+            els.actionNoticeText.textContent = '原因：' + active.record.reason + ' · 已顺延给 ' + active.to.name;
+            els.undoActionBtn.textContent = '撤销跳过';
+          }
+        } else {
+          els.actionNotice.hidden = true;
+          els.actionNotice.classList.remove('is-done', 'is-skip');
+        }
+        renderMembers(current.id, next ? next.id : null);
+        renderHistory(today, active);
+      }
+      function renderMembers(currentId, nextId) {
+        var multiple = state.members.length > 1;
+        var stats = buildMemberStats();
+        els.memberList.innerHTML = state.members.map(function (member, index) {
+          var isCurrent = member.id === currentId;
+          var isNext = multiple && member.id === nextId && !isCurrent;
+          var memberStats = stats[member.id] || { normal: 0, skip: 0 };
+          var tag = '';
+          if (isCurrent) tag = '<span class="tag tag-current">当前</span>';
+          else if (isNext) tag = '<span class="tag tag-next">下一位</span>';
+          return '<li class="member-row' + (isCurrent ? ' is-current' : '') + '"' + (isCurrent ? ' aria-current="true"' : '') + '>' +
+            '<span class="member-order" aria-hidden="true">' + pad(index + 1) + '</span>' +
+            '<span class="member-avatar" aria-hidden="true">' + escapeHTML(getInitial(member.name)) + '</span>' +
+            '<div class="member-main">' +
+              '<div class="member-name-line">' +
+                '<span class="member-name" title="' + escapeHTML(member.name) + '">' + escapeHTML(member.name) + '</span>' +
+                tag +
+              '</div>' +
+              '<div class="member-stats" title="正常换水 ' + memberStats.normal + ' 次，跳过少换 ' + memberStats.skip + ' 次">' +
+                '<span class="member-stat"><span class="stat-dot normal" aria-hidden="true"></span>正常换水 <strong>' + memberStats.normal + '</strong> 次</span>' +
+                ' ' +
+                '<span class="member-stat"><span class="stat-dot leave" aria-hidden="true"></span>跳过少换 <strong>' + memberStats.skip + '</strong> 次</span>' +
+              '</div>' +
+            '</div>' +
+            '<button class="icon-btn" type="button" data-delete-id="' + escapeHTML(member.id) + '" aria-label="将 ' + escapeHTML(member.name) + ' 移出换水名单" title="移出名单">' + ICONS.trash + '</button>' +
+          '</li>';
+        }).join('');
+      }
+      function renderHistory(today, activeAction) {
+        var records = state.history;
+        var doneCount = records.filter(function (record) { return record.type !== 'skip'; }).length;
+        var skipCount = records.filter(function (record) { return record.type === 'skip'; }).length;
+        els.historyHint.textContent = records.length
+          ? '共 ' + doneCount + ' 次换水 · ' + skipCount + ' 次跳过'
+          : '完成或跳过第一次换水后，记录会出现在这里';
+        els.clearHistoryBtn.hidden = records.length === 0;
+        if (!records.length) {
+          els.historyList.innerHTML = '<li class="history-empty">' + ICONS.emptyHistory + '还没有换水记录<br>完成或跳过第一次换水后，这里会自动记录。</li>';
+          return;
+        }
+        els.historyList.innerHTML = records.map(function (record) {
+          var isSkip = record.type === 'skip';
+          var isActive = Boolean(activeAction && activeAction.record.id === record.id);
+          var todayTag = record.date === today ? '<span class="history-today">今天</span>' : '';
+          var typeTag = isSkip ? '<span class="history-skip">跳过</span>' : '<span class="history-done">换水</span>';
+          var reason = isSkip
+            ? '<div class="history-reason">原因：' + escapeHTML(record.reason) + '</div>'
+            : '';
+          var actionLabel = isActive
+            ? (isSkip ? '撤销这次跳过' : '撤销这次换水')
+            : '删除这条记录';
+          var actionIcon = isActive ? ICONS.undo : ICONS.trash;
+          return '<li class="history-item' + (isSkip ? ' is-skip' : '') + '">' +
+            '<span class="history-check" aria-hidden="true">' + (isSkip ? ICONS.skip : ICONS.check) + '</span>' +
+            '<div class="history-main">' +
+              '<div class="history-name">' + escapeHTML(record.memberName) + typeTag + todayTag + '</div>' +
+              '<div class="history-date">' + escapeHTML(formatHistoryDate(record.date, today)) + '</div>' +
+              reason +
+            '</div>' +
+            '<div class="history-side">' +
+              '<time class="history-time" datetime="' + escapeHTML(record.checkedAt) + '" title="' + escapeHTML(formatTimestamp(record.checkedAt)) + '">' + escapeHTML(formatTime(record.checkedAt)) + '</time>' +
+              '<button class="history-action' + (isActive ? ' is-undo' : '') + '" type="button" data-history-id="' + escapeHTML(record.id) + '" aria-label="' + actionLabel + '：' + escapeHTML(record.memberName) + ' ' + escapeHTML(formatMonthDay(record.date)) + '" title="' + actionLabel + '">' + actionIcon + '</button>' +
+            '</div>' +
+          '</li>';
+        }).join('');
+      }
+      function handleAddMember(event) {
+        event.preventDefault();
+        var name = normalizeName(els.nameInput.value);
+        if (!name) {
+          showNameError('请输入室友名字');
+          return;
+        }
+        if (Array.from(name).length > MAX_NAME_LENGTH) {
+          showNameError('名字最多 ' + MAX_NAME_LENGTH + ' 个字');
+          return;
+        }
+        var duplicated = state.members.some(function (member) {
+          return member.name.toLocaleLowerCase() === name.toLocaleLowerCase();
+        });
+        if (duplicated) {
+          showNameError('名单中已有「' + name + '」');
+          return;
+        }
+        var member = {
+          id: makeId(),
+          name: name,
+          createdAt: new Date().toISOString()
+        };
+        state.members.push(member);
+        if (!state.currentMemberId) state.currentMemberId = member.id;
+        clearNameError();
+        els.nameInput.value = '';
+        saveState();
+        render();
+        toast(state.members.length === 1
+          ? '已添加 ' + member.name + '，从 TA 开始换水'
+          : member.name + ' 已加入换水名单');
+        els.nameInput.focus({ preventScroll: true });
+      }
+      function showNameError(message) {
+        els.nameError.textContent = message;
+        els.nameError.hidden = false;
+        els.nameInput.setAttribute('aria-invalid', 'true');
+        els.nameInput.focus({ preventScroll: true });
+      }
+      function clearNameError() {
+        if (els.nameError.hidden) return;
+        els.nameError.textContent = '';
+        els.nameError.hidden = true;
+        els.nameInput.removeAttribute('aria-invalid');
+      }
+      function requestDeleteMember(id) {
+        var member = state.members.find(function (item) {
+          return item.id === id;
+        });
+        if (!member) return;
+        var isCurrent = state.currentMemberId === id;
+        var message;
+        if (isCurrent && state.members.length === 1) {
+          message = '「' + member.name + '」是当前换水人。移出后名单将为空，当前换水人也会清空，历史记录会保留。';
+        } else if (isCurrent) {
+          message = '「' + member.name + '」是当前换水人。移出后，会自动由下一位室友接替，历史记录会保留。';
+        } else {
+          message = '确定将「' + member.name + '」从名单中移除吗？历史记录会保留。';
+        }
+        openConfirm('移出换水名单？', message, '移出', function () {
+          deleteMember(id);
+        });
+      }
+      function deleteMember(id) {
+        ensureCurrent();
+        var index = state.members.findIndex(function (member) {
+          return member.id === id;
+        });
+        if (index === -1) return;
+        var removed = state.members[index];
+        var wasCurrent = state.currentMemberId === id;
+        state.members.splice(index, 1);
+        var handoff = null;
+        if (!state.members.length) {
+          state.currentMemberId = null;
+        } else if (wasCurrent) {
+          var nextIndex = index % state.members.length;
+          handoff = state.members[nextIndex];
+          state.currentMemberId = handoff.id;
+        } else if (!state.members.some(function (member) { return member.id === state.currentMemberId; })) {
+          state.currentMemberId = state.members[0].id;
+        }
+        cleanupLastAction();
+        saveState();
+        render();
+        if (handoff) {
+          toast(removed.name + ' 已移出，当前由 ' + handoff.name + ' 接替');
+        } else {
+          toast(removed.name + ' 已移出换水名单');
+        }
+      }
+      function handleComplete() {
+        if (Date.now() < actionLockUntil) {
+          toast('操作太快，请稍候');
+          return;
+        }
+        ensureCurrent();
+        var member = currentMember();
+        if (!member) {
+          toast('请先添加室友');
+          return;
+        }
+        var next = nextMemberFor(member);
+        if (!next) return;
+        var now = new Date();
+        var today = todayKey();
+        var previousWaterDate = state.lastWaterDate;
+        var record = {
+          id: makeId(),
+          type: 'done',
+          date: today,
+          memberId: member.id,
+          memberName: member.name,
+          reason: '',
+          checkedAt: now.toISOString()
+        };
+        state.history.push(record);
+        state.history.sort(sortHistory);
+        state.lastWaterDate = today;
+        state.currentMemberId = next.id;
+        state.lastAction = {
+          recordId: record.id,
+          type: 'done',
+          fromMemberId: member.id,
+          toMemberId: next.id,
+          previousWaterDate: previousWaterDate,
+          createdAt: now.toISOString()
+        };
+        actionLockUntil = Date.now() + 900;
+        saveState();
+        render();
+        els.waterCard.classList.add('celebrate');
+        window.setTimeout(function () {
+          els.waterCard.classList.remove('celebrate');
+        }, 650);
+        toast(member.id === next.id
+          ? '换水完成，继续由 ' + member.name + ' 负责'
+          : '换水完成，已顺延给 ' + next.name);
+      }
+      function openSkipDialog() {
+        ensureCurrent();
+        var member = currentMember();
+        if (!member) {
+          toast('请先添加室友');
+          return;
+        }
+        if (state.members.length < 2) {
+          toast('只有一位室友，无法跳过');
+          return;
+        }
+        var next = nextMemberFor(member);
+        if (!next || next.id === member.id) return;
+        var message = '「' + member.name + '」本次换水将顺延给「' + next.name + '」，提交后立即生效。';
+        if (!els.skipDialog || typeof els.skipDialog.showModal !== 'function') {
+          var answer = window.prompt('跳过 / 不在\n\n' + message + '\n\n请填写跳过原因：', '');
+          if (answer !== null) performSkip(answer);
+          return;
+        }
+        els.skipText.textContent = message;
+        els.skipReason.value = '';
+        clearSkipError();
+        skipReturnFocus = document.activeElement;
+        els.skipDialog.returnValue = '';
+        if (els.skipDialog.open) els.skipDialog.close('cancel');
+        els.skipDialog.showModal();
+        window.setTimeout(function () {
+          els.skipReason.focus({ preventScroll: true });
+        }, 30);
+      }
+      function handleSkipSubmit(event) {
+        event.preventDefault();
+        var reason = truncateReason(normalizeReason(els.skipReason.value));
+        if (!reason) {
+          showSkipError('请填写跳过原因');
+          return;
+        }
+        if (performSkip(reason)) {
+          els.skipDialog.close('confirm');
+        }
+      }
+      function performSkip(rawReason) {
+        ensureCurrent();
+        var member = currentMember();
+        var reason = truncateReason(normalizeReason(rawReason));
+        if (!member) {
+          toast('请先添加室友');
+          return false;
+        }
+        if (state.members.length < 2) {
+          toast('只有一位室友，无法跳过');
+          return false;
+        }
+        if (!reason) {
+          toast('请填写跳过原因');
+          return false;
+        }
+        var next = nextMemberFor(member);
+        if (!next || next.id === member.id) return false;
+        var now = new Date();
+        var record = {
+          id: makeId(),
+          type: 'skip',
+          date: todayKey(),
+          memberId: member.id,
+          memberName: member.name,
+          reason: reason,
+          checkedAt: now.toISOString()
+        };
+        state.history.push(record);
+        state.history.sort(sortHistory);
+        state.currentMemberId = next.id;
+        state.lastAction = {
+          recordId: record.id,
+          type: 'skip',
+          fromMemberId: member.id,
+          toMemberId: next.id,
+          previousWaterDate: state.lastWaterDate,
+          createdAt: now.toISOString()
+        };
+        saveState();
+        render();
+        toast('已跳过，当前顺延给 ' + next.name);
+        return true;
+      }
+      function showSkipError(message) {
+        els.skipError.textContent = message;
+        els.skipError.hidden = false;
+        els.skipReason.setAttribute('aria-invalid', 'true');
+        els.skipReason.focus({ preventScroll: true });
+      }
+      function clearSkipError() {
+        if (els.skipError.hidden) return;
+        els.skipError.textContent = '';
+        els.skipError.hidden = true;
+        els.skipReason.removeAttribute('aria-invalid');
+      }
+      function undoLastAction() {
+        var active = getActiveAction();
+        if (!active) {
+          toast('这次操作已无法撤销');
+          return false;
+        }
+        state.history = state.history.filter(function (record) {
+          return record.id !== active.record.id;
+        });
+        state.currentMemberId = active.from.id;
+        if (active.action.type === 'done') {
+          state.lastWaterDate = normalizeDateKey(active.action.previousWaterDate) || null;
+        }
+        state.lastAction = null;
+        saveState();
+        render();
+        toast(active.action.type === 'done'
+          ? '已撤销换水，恢复 ' + active.from.name + ' 为当前换水人'
+          : '已撤销跳过，恢复 ' + active.from.name + ' 为当前换水人');
+        return true;
+      }
+      function requestDeleteHistory(id) {
+        var record = state.history.find(function (item) {
+          return item.id === id;
+        });
+        if (!record) return;
+        var active = getActiveAction();
+        var isActive = Boolean(active && active.record.id === id);
+        var isSkip = record.type === 'skip';
+        var title = isActive
+          ? (isSkip ? '撤销这次跳过？' : '撤销这次换水？')
+          : '删除这条记录？';
+        var message;
+        if (isActive) {
+          message = isSkip
+            ? '将撤销「' + record.memberName + '」的跳过记录，恢复 TA 为当前换水人，并重新允许接着完成换水。'
+            : '将撤销「' + record.memberName + '」的换水记录，恢复 TA 为当前换水人，并把饮水天数恢复到这次换水之前。';
+        } else if (isSkip) {
+          message = '将删除「' + record.memberName + '」在 ' + formatMonthDay(record.date) + ' 的跳过记录，跳过次数会同步更新。当前换水人不会改变。';
+        } else {
+          message = '将删除「' + record.memberName + '」在 ' + formatMonthDay(record.date) + ' 的换水记录，正常换水次数会同步更新。当前换水人和饮水天数不会改变。';
+        }
+        openConfirm(title, message, isActive ? '撤销' : '删除', function () {
+          if (isActive) {
+            undoLastAction();
+            return;
+          }
+          state.history = state.history.filter(function (item) {
+            return item.id !== id;
+          });
+          saveState();
+          render();
+          toast('记录已删除');
+        });
+      }
+      function requestClearHistory() {
+        if (!state.history.length) return;
+        openConfirm(
+          '清空换水记录？',
+          '将删除全部 ' + state.history.length + ' 条换水/跳过记录，并清空饮水天数计时。当前换水人不会改变，此操作无法撤销。',
+          '清空',
+          function () {
+            state.history = [];
+            state.lastAction = null;
+            state.lastWaterDate = null;
+            saveState();
+            render();
+            toast('换水记录已清空');
+          }
+        );
+      }
+      function requestResetAll() {
+        openConfirm(
+          '重置所有数据？',
+          '将清空 ' + state.members.length + ' 位室友、' + state.history.length + ' 条换水记录、饮水天数和当前轮换状态，恢复到初始界面。此操作无法撤销。',
+          '重置',
+          resetAllData
+        );
+      }
+      function resetAllData() {
+        var theme = state.settings.theme;
+        state = createEmptyState();
+        state.settings.theme = theme;
+        els.nameInput.value = '';
+        clearNameError();
+        if (els.skipDialog && els.skipDialog.open) els.skipDialog.close('cancel');
+        actionLockUntil = 0;
+        saveState();
+        render();
+        toast('已重置所有数据');
+      }
+      function openConfirm(title, message, confirmLabel, onConfirm) {
+        if (!els.dialog || typeof els.dialog.showModal !== 'function') {
+          if (window.confirm(title + '\n\n' + message)) onConfirm();
+          return;
+        }
+        if (els.dialog.open) els.dialog.close('cancel');
+        els.dialogTitle.textContent = title;
+        els.dialogText.textContent = message;
+        els.dialogConfirm.textContent = confirmLabel;
+        pendingConfirm = onConfirm;
+        dialogReturnFocus = document.activeElement;
+        els.dialog.returnValue = '';
+        els.dialog.showModal();
+      }
+      function cycleTheme() {
+        var index = THEME_ORDER.indexOf(state.settings.theme);
+        state.settings.theme = THEME_ORDER[(index + 1) % THEME_ORDER.length];
+        applyTheme();
+        saveState();
+      }
+      function applyTheme() {
+        var theme = state.settings.theme;
+        if (theme === 'auto') {
+          document.documentElement.removeAttribute('data-theme');
+        } else {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+        var labels = { auto: '自动', dark: '深色', light: '浅色' };
+        var names = { auto: '跟随系统', dark: '深色', light: '浅色' };
+        els.themeLabel.textContent = labels[theme];
+        els.themeIcon.innerHTML = ICONS[theme];
+        els.themeToggle.setAttribute('aria-label', '当前主题：' + names[theme] + '。点击切换主题');
+        els.themeToggle.title = '当前主题：' + names[theme] + '（点击切换）';
+        var effective = theme === 'auto' ? (darkQuery.matches ? 'dark' : 'light') : theme;
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', effective === 'dark' ? '#071019' : '#edf4f8');
+      }
+      function checkDayChange() {
+        var now = todayKey();
+        if (now === lastDay) return;
+        lastDay = now;
+        render();
+      }
+      function toast(message) {
+        window.clearTimeout(toastTimer);
+        els.toast.textContent = message;
+        els.toast.classList.add('show');
+        toastTimer = window.setTimeout(function () {
+          els.toast.classList.remove('show');
+        }, 3000);
+      }
+    }());
+  </script>
+</body>
+</html>
